@@ -7,20 +7,20 @@ notes from, time series forecasting by Marco Peixeiro
 intro
 =====
 
-time series: set of points oredered in time. usually equally spaced in time.
+time series: set of points ordered in time. usually equally spaced in time.
 
 has 3 components:
 
 - trend:
     the slow-moving changes in a time series. like trying to draw a line
-    trhough most the data points to show the general direction of a time series
+    through most the data points to show the general direction of a time series
 
 - seasonal component:
     cycle that occurs over a fixed period of time.
 
 - residuals:
     what can not be explained by the trend or the seasonal components. we can
-    think of it as, adding teh trend ans seasonal graphs together and comparing
+    think of it as, adding the trend ans seasonal graphs together and comparing
     the value at each point
 
     usually corresponds to random errors, white noise and so on.
@@ -53,8 +53,8 @@ data on)
 diff between time series forecasting and other regressions tasks
 ----------------------------------------------------------------
 
-- time seres have an order
-  - time sereis are indexed by time, order must be kept. on the other hand, say
+- time series have an order
+  - time series are indexed by time, order must be kept. on the other hand, say
     you want to predict revenue based on ad spend, it does not matter when
     certain amount was spent on ads.
 
@@ -67,7 +67,7 @@ baseline model
 ==============
 
 a baseline model is a trivial solution to our problem. it uses heuristics or
-simple statistics to generate predictons.
+simple statistics to generate predictions.
 
 The baseline model is the simplest solution you can think of.
 
@@ -81,16 +81,16 @@ something like saying:
 
 other way is to naively forecast the last recorded data point.
 
->>> if the EPS is $0.71 for this quarter, then the EPS will aslo be $0.71 for
+>>> if the EPS is $0.71 for this quarter, then the EPS will also be $0.71 for
 >>> next quarter
 
 or if we see a cyclical pattern:
 
 >> if the EPS is $14.04 for the first quarter of 1979, then the EPS for the
->> first quarter of 1980 will alaso be $14.04
+>> first quarter of 1980 will also be $14.04
 
 when we define a baseline we need to calculate an error metric in order to
-evaluate the perfomance of our forecasts on the test set
+evaluate the performance of our forecasts on the test set
 
 - mean absolute percentage error (MAPE):
     measure prediction accuracy, independent of the scale of our data
