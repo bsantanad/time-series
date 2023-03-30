@@ -1,0 +1,98 @@
+===========
+time series
+===========
+
+notes from, time series forecasting by Marco Peixeiro
+
+intro
+=====
+
+time series: set of points oredered in time. usually equally spaced in time.
+
+has 3 components:
+
+- trend:
+    the slow-moving changes in a time series. like trying to draw a line
+    trhough most the data points to show the general direction of a time series
+
+- seasonal component:
+    cycle that occurs over a fixed period of time.
+
+- residuals:
+    what can not be explained by the trend or the seasonal components. we can
+    think of it as, adding teh trend ans seasonal graphs together and comparing
+    the value at each point
+
+    usually corresponds to random errors, white noise and so on.
+
+    they represent info the model can not predict since it is random.
+
+
+visualizing these components is known as _decomposition_
+
+
+brid's-eye view of time series forecasting
+------------------------------------------
+
+forecasting: predicting the future using historical data and knowledge of
+future events that might affect our forecasts.
+
+
+1. set a goal
+2. determine what must be forecast to achieve our goal
+3. set the horizon of the forecast (horizon: period you want to predict the
+data on)
+4. gather the data
+5. *develop a forecasting model*
+6. deploy to production
+7. monitor
+8. collect new data
+9. repeat step 5
+
+
+diff between time series forecasting and other regressions tasks
+----------------------------------------------------------------
+
+- time seres have an order
+  - time sereis are indexed by time, order must be kept. on the other hand, say
+    you want to predict revenue based on ad spend, it does not matter when
+    certain amount was spent on ads.
+
+-  time series do not have features
+  - it is common to only have two columns, time and the data itself, it does
+    not have categories and so on
+
+
+baseline model
+==============
+
+a baseline model is a trivial solution to our problem. it uses heuristics or
+simple statistics to generate predictons.
+
+The baseline model is the simplest solution you can think of.
+
+In the context of time series, simple static we can use to build baseline is
+the arithmetic mean.
+
+something like saying:
+
+>>> the average EPS between 1960 and 1979 was $4.31. Therefore, I expect the
+>>> EPS over the next four quarters of 1980 to be equal to $4.31 per quarter
+
+other way is to naively forecast the last recorded data point.
+
+>>> if the EPS is $0.71 for this quarter, then the EPS will aslo be $0.71 for
+>>> next quarter
+
+or if we see a cyclical pattern:
+
+>> if the EPS is $14.04 for the first quarter of 1979, then the EPS for the
+>> first quarter of 1980 will alaso be $14.04
+
+when we define a baseline we need to calculate an error metric in order to
+evaluate the perfomance of our forecasts on the test set
+
+- mean absolute percentage error (MAPE):
+    measure prediction accuracy, independent of the scale of our data
+
+check the notebook: ch2/baseline.ipynb for more details
