@@ -96,3 +96,113 @@ evaluate the performance of our forecasts on the test set
     measure prediction accuracy, independent of the scale of our data
 
 check the notebook: ch2/baseline.ipynb for more details
+
+
+random walk
+===========
+
+>>> a random walk is a series whose first difference is stationary and
+>>> uncorrelated.
+>>>
+>>> this means that the process moves completely random.
+
+a random walk is a process in which there is an equal chance of going up or
+down by a random number. Usually observed in financial and economic data.
+
+Normally they also have long periods of positive or negative trends, but sudden
+changes in direction.
+
+a random walks is expressed by:
+    the previous value plus white noise and some constant
+
+
+how to find out if we have a random walk?
+-----------------------------------------
+
+1. gather data
+2. is it stationary? if not make it (transformations)
+3. plot ACF
+4. is there autocorrelation?
+    - no, random walk
+    - yes, not a random walk
+
+let's break down the concepts
+
+
+stationarity
+------------
+
+>>> a stationary time series is one whose statistical properties do not change
+>>> over time.
+>>>
+>>> It has constant mean, variance, and autocorrelation, and these properties
+>>> are independent of time.
+
+many forecasting models assume stationarity. moving average model,
+autoregressive model, and autoregressive moving average model all assume
+stationary.
+
+we rarely see this stationary time series, this is when ARIMA and SARIMA come
+into play.
+
+There are several way to transform a time series to become stationary, the
+simplest one is differencing. Calculate the changes from one step to another.
+This transformation helps stabilize the mean. Which reduces the trend and
+seasonality effects.
+
+Differencing: stabilize the mean
+Apply log function: stabilize the variance
+
+make sure to inverse transform the data after finishing the model.
+
+- how to test for stationarity?
+Augmented Dickey-Fuller (ADF) test, if the p value is less than 0.05 we can say
+the series is stationary
+
+a stationary series has constant properties over time, mean and variance are
+not a function of time. the mean of stationary process should be flat over time
+the mean of non-stationary process should vary
+
+
+autocorrelation function
+------------------------
+
+once the time series become stationary, we plot the autocorrelation function
+(acf). It is a great way to understand what type of process you are analyzing.
+
+correlation measures the extent of a linear relationship between two
+variables.
+
+>>> the autocorrelation function measures the linear relationship between
+>>> lagged values of a time series. ACF measures the correlation of the time
+>>> series with itself
+
+in the presence of a trend, a plot of the ACF will show coefficients are high
+for short lags, and will decrease as the lag increases. If the data is
+seasonal, it will also display cyclical patterns.
+
+check ch3/random_walk.ipynb for more details
+
+
+basically if we are presented with a random walk, we cannot predict anything
+with an statistical model.
+
+we can only use methods like the one we use in the baseline part. (historical
+mean, last known value)
+
+nevertheless there is a method that we have not take into account:
+
+the drift method
+----------------
+
+>>> The rate at which values will change in the future is equal to that seen in
+>>> the train set.
+>>>
+>>> Therefore, it is equivalent to calculating the slope between the first and
+>>> last value of the train set and simply extrapolating this straight line
+>>> into the future.
+
+basically getting the slope and calculating the values based on that.
+
+slope = (delta y) / (delta x)
+      = (yf - yi) / #timesteps - 1
