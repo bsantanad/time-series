@@ -224,5 +224,50 @@ it in the next.
 the conclusion is, if we find a random walk, we cannot use deep learning or
 statistical models to predict future values.
 
-moving average
-==============
+
+moving average process
+======================
+
+>>> In a moving average (MA) process, the current value depends linearly on the
+>>> mean of the series, the current error term, and past error terms.
+
+It is usually denoted as MA(q) where q is the order (the number of past error
+terms that affect the present value).
+
+yt = µ + εt + (θ1 (ε_(t-1)) + (θ2 (ε_(t-2)) + ... + (θq (ε_(t-q))
+
+where:
+- µ is the mean
+- εt error term
+- ε_(t - k)  past error term
+- θ magnitud of impact of the past errors
+
+The larger q is, the more past error terms affect the present value.
+
+This means that we need to choose this number carefully in order to train the
+data correctly
+
+1. gather data
+2. is it stationary? if not make it (transformations)
+3. plot ACF
+4. is there autocorrelation?
+    - no, random walk
+5. yes. Do autocorrelation coefficients beome abruptly non-significant after
+   lag q?
+   - yes, MA(q) process
+   - no, not MA(q) process
+
+we get q from the ACF plot, when we see that the correlation ends
+
+see ch4_moving_average/moving_average_order_q.ipynb for more details
+
+Now, say q = 2, meaning we will only take 2 past errors to calc each value. We
+can not take this and calculate 50 timesteps into the future. Becuase we dont
+have the 2 past error for future values.
+
+What we can do is called _rolling forecasting_ which basically is iterate the
+training, and based on new results obtain values further in the future
+
+say we have 10 steps, and a q of 2. The first iteration we can predict until
+12, the second one we will take the new values and train with those so we will
+be able to go until 14.
