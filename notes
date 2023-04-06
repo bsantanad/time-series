@@ -184,8 +184,8 @@ seasonal, it will also display cyclical patterns.
 check ch3/random_walk.ipynb for more details
 
 
-basically if we are presented with a random walk, we cannot predict anything
-with an statistical model.
+basically if we are presented with a random walk, we cannot predict anything at
+the long term with an statistical model.
 
 we can only use methods like the one we use in the baseline part. (historical
 mean, last known value)
@@ -195,8 +195,7 @@ nevertheless there is a method that we have not take into account:
 the drift method
 ----------------
 
->>> The rate at which values will change in the future is equal to that seen in
->>> the train set.
+>>> States that the value of our forecast is linearly dependent on the timestep
 >>>
 >>> Therefore, it is equivalent to calculating the slope between the first and
 >>> last value of the train set and simply extrapolating this straight line
@@ -206,3 +205,24 @@ basically getting the slope and calculating the values based on that.
 
 slope = (delta y) / (delta x)
       = (yf - yi) / #timesteps - 1
+
+check ch3/random_walk.ipynb for more details
+
+we cannot forecast long term a random walk.
+
+
+forecasting next timestep
+-------------------------
+
+since the value of a random walk is the past value by some random number, if we
+take the last value we will be off just by that random number
+
+this might look deceiving to untrained eyes, because even the MSE is low. But
+remember we are just taking the last known value at each timestep and inserting
+it in the next.
+
+the conclusion is, if we find a random walk, we cannot use deep learning or
+statistical models to predict future values.
+
+moving average
+==============
