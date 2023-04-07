@@ -257,7 +257,7 @@ data correctly
    - yes, MA(q) process
    - no, not MA(q) process
 
-we get q from the ACF plot, when we see that the correlation ends
+we get q from the ACF plot, when we see that the correlation ends.
 
 see ch4_moving_average/moving_average_order_q.ipynb for more details
 
@@ -271,3 +271,12 @@ training, and based on new results obtain values further in the future
 say we have 10 steps, and a q of 2. The first iteration we can predict until
 12, the second one we will take the new values and train with those so we will
 be able to go until 14.
+
+see ch4_moving_average/moving_average_order_q.ipynb for more details
+
+we can use the mean absolute error, it returns the average of the absolute
+difference between the predicted and actual values
+
+again, for more details ch4_moving_average/moving_average_order_q.ipynb
+there we have an interpretation.
+
