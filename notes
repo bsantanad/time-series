@@ -252,7 +252,7 @@ data correctly
 3. plot ACF
 4. is there autocorrelation?
     - no, random walk
-5. yes. Do autocorrelation coefficients beome abruptly non-significant after
+5. yes. Do autocorrelation coefficients become abruptly non-significant after
    lag q?
    - yes, MA(q) process
    - no, not MA(q) process
@@ -262,7 +262,7 @@ we get q from the ACF plot, when we see that the correlation ends.
 see ch4_moving_average/moving_average_order_q.ipynb for more details
 
 Now, say q = 2, meaning we will only take 2 past errors to calc each value. We
-can not take this and calculate 50 timesteps into the future. Becuase we dont
+can not take this and calculate 50 timesteps into the future. Because we don't
 have the 2 past error for future values.
 
 What we can do is called _rolling forecasting_ which basically is iterate the
@@ -280,3 +280,64 @@ difference between the predicted and actual values
 again, for more details ch4_moving_average/moving_average_order_q.ipynb
 there we have an interpretation.
 
+autoregressive process
+======================
+
+an autoregressive process establishes that the output variable depends linearly
+on its own previous states.
+
+>>> An autoregressive process is a regression of a variable against itself. In
+>>> a time series, this means that the present value is linearly dependent on
+>>> its past values.
+
+It is defined by AR(p) where p is the order it defines the number of past
+values that affect the present value:
+
+yt = C + (φ1 (y_(t-1)) + (φ2 (y_(t-2)) + ... + (φp (y_(t-p)) + εt
+
+where
+
+- φ autoregressive coefficients that measure the strength of the
+  relationship between the current value and past values.
+- εt error term
+- ε_(t - k)  past error term
+
+if p is 1 and φ1 is 1,
+
+yt = C + (φ1 (y_(t-1)) + εt
+
+we have a random walk, so a random walk is a special case of an autoregressive
+process.
+
+We can now add steps to our list of time series process:
+
+1. gather data
+2. is it stationary? if not make it (transformations)
+3. plot ACF
+4. is there autocorrelation?
+    - no, random walk
+5. yes. Do autocorrelation coefficients become abruptly non-significant after
+   lag q?
+   - yes, MA(q) process
+6. no, plot PACF
+7. Do coefficients become abruptly non-significant after lag p
+   - yes, AR(p) process
+   - no, not an AR(p) process
+
+How does the ACF plot looks if we are dealing with an autoregressive process?
+
+check the notebook: ch5_autoregressive/autoregressive.ipynb
+
+>>> when the ACF plot of a stationary process exhibits a pattern of exponential
+>>> decay, we probably have an autoregressive process in play.
+>>>
+>>> we must turn our attention to the partial autocorrelation function (PACF)
+>>> plot. to get the order of the autoregression
+
+what does the partial autocorrelation does?
+
+>>> the partial autocorrelation measures the correlation between lagged values
+>>> in a time series when we remove the influence of correlated lagged values
+>>> in between.
+
+check the notebook: ch5_autoregressive/autoregressive.ipynb
