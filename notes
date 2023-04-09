@@ -341,3 +341,85 @@ what does the partial autocorrelation does?
 >>> in between.
 
 check the notebook: ch5_autoregressive/autoregressive.ipynb
+
+
+autoregressive moving average process (ARMA)
+==========================================
+
+what happens when we will plot the ACF function and find that:
+
+- there are significant autocorrelation coefficients after lag 0, which means
+  it is not a random walk.
+- we observe that coefficients slowly decay. They do not become abruptly
+  non-significant after a certain lag, which means that it is not a purely
+  moving average process.
+- we plot PACF and we notice a sinusoidal pattern, meaning the coefficients do
+  not become abruptly non-significant after a certain lag
+
+(meaning that we have done all steps covered in previous chapters)
+
+Then, we must have a combination of autoregressive and moving average
+processes, which is modeled with the:
+
+ARMA(p, q) model
+
+where:
+- p being the order of the autoregressive process
+- q the order of the moving average process
+
+we used to calc these two numbers with ACF and PACF plot, but it will be hard
+to get them from there in this case. That is when Akaike information criterion
+comes into play
+
+>>> The autoregressive moving average process is a combination of the
+>>> autoregressive process and the moving average process.
+
+>>> An ARMA(0,q) process is equivalent to an MA(q) process, since the order
+>>> p = 0 cancels the AR(p) portion. An ARMA(p,0) process is equivalent to an
+>>> AR(p) process, since the order q = 0 cancels the MA(q) portion.
+
+
+yt = C + (φ1 (y_(t-1)) + (φ2 (y_(t-2)) + ... + (φp (y_(t-p)) µ + εt
+     + (θ1 (ε_(t-1)) + (θ2 (ε_(t-2)) + ... + (θq (ε_(t-q))
+
+It is kind of hard to see in plain text but it basically just the two formulas
+(for AR and MA) added up.
+
+where:
+- p determines the number of past *values* that affect the present value.
+- q determines the number of past *errors* that affect the present value.
+
+The steps then, remain as follows:
+1. gather data
+2. is it stationary? if not make it (transformations)
+3. plot ACF
+4. is there autocorrelation?
+    - no, random walk
+5. yes. Do autocorrelation coefficients become abruptly non-significant after
+   lag q?
+   - yes, MA(q) process
+6. no, plot PACF
+7. Do coefficients become abruptly non-significant after lag p
+   - yes, AR(p) process
+   - no, it is an ARMA(p,q) process
+
+>>> Identifying a stationary ARMA(p,q) process
+>>>
+>>> If your process is stationary and both the ACF and PACF plots show a
+>>> decaying or sinusoidal pattern, then it is a stationary ARMA(p,q) process.
+
+we know that we need to calc q and p in order to do anything, but ACF and PACF
+plots wont tell us much, we need a new method, and say goodbye to our old
+friends :(
+
+1. gather data
+2. is it stationary? if not make it (transformations)
+3. list values of p and q
+4. fit every combination of ARMA(p,q)
+5. select model with lowest AIC
+6. residual analysis
+    - Q-Q plot shows a straight line? no? go back to step 3
+    - Uncorrelated residuals? no? go back to step 3
+7. if the answer to the last two question is yes, ready to forecasts
+
+Akaike information criteria
