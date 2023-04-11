@@ -240,7 +240,7 @@ where:
 - µ is the mean
 - εt error term
 - ε_(t - k)  past error term
-- θ magnitud of impact of the past errors
+- θ magnitude of impact of the past errors
 
 The larger q is, the more past error terms affect the present value.
 
@@ -422,4 +422,117 @@ friends :(
     - Uncorrelated residuals? no? go back to step 3
 7. if the answer to the last two question is yes, ready to forecasts
 
-Akaike information criteria
+Akaike information criteria (AIC)
+---------------------------------
+
+>>> The AIC estimates the quality of a model relative to other models.
+>>>
+>>> Given that there will be some information lost when a model is fitted to
+>>> the data, the AIC quantifies the information lost.
+>>>
+>>> The less information lost, the lower the AIC value and the better the
+>>> model.
+
+It is expressed by:
+
+AIC = 2k - ln(L)
+
+where:
+- k is the number of estimated parameters
+- L maximum value of the likelihood function model
+
+Using the AIC to select our model, allows us to keep a balance between the
+complexity of the model and its goodness of fitting the data
+
+k is directly affected by the order of p and q in ARMA(p,q)
+say,
+p = 2
+q = 2
+then k = 2 + 2 = 4
+
+the higher the order gets, the AIC increases, making it penalize more complex
+models
+
+L (the likelihood function) measures the goodness of fit of a model. It can be
+seen as the opposite of the distribution function
+
+- dist function: given a model with fixed params, measures the probability of
+  observing a data point.
+
+- likelihood function: given a set of data, it tell us how likely it is that
+  diff model parameters will generate the data.
+
+in case that was unclear, here is an example:
+
+consider we will roll a six-sided die:
+
+- the dist function tells us that there is a 1/6 probability that we'll
+  observe [1,2,3,4,5,6]
+
+- suppose that you roll a die 10 times and you obtain [1,5,3,4,6,2,4,3,2,1].
+  The likelihood function will determine how likely is that the die has six
+  sides.
+
+so the question in our context is, "how likely is that my observed data is
+coming from an ARMA(1,1)"
+
+if a model fits the data really well, the maximum value of likelihood will be
+high.
+
+since AIC function subtracts the ln of L from 2k, it balance between
+underfitting and overfitting.
+
+AIC quantifies the quality of a model in relation to other models only.
+so it is a relative measure of quality.
+
+What we end up doing in code is iterating thru some combinations of p and q, to
+calc the AIC values and selecting the one with the lowest score
+
+calculating residuals
+---------------------
+
+The residuals of a model are simply the difference between the predicted values
+and the actual values.
+
+we need to check two things
+
+1. Q-Q plot
+2. Ljung-Box test
+
+if the process found by the arma model is the same as the original process,
+then the residual would be just εt (the error term), meaning white noise, stuff
+we cannot predict based on past values.
+
+the first step is making the Q-Q plot:
+- residuals are plotted in y-axis
+- quanitles of theoretical dist (in this case normal) on the x axis
+
+we want our error to behave as a normal distribution so we want the two lines
+exactly the same `y = x`.
+
+if we don't get this result we can say that our distribution of residuals does
+not resemble a normal dist, so our model is not a good fit.
+
+>>> A Q-Q plot is a plot of the quantiles of two distributions against each
+>>> other. In time series forecasting, we plot the distribution of our
+>>> residuals on the y-axis against the theoretical normal distribution on the
+>>> x-axis.
+>>>
+>>> if our residuals is similar to a normal distribution, we will see a
+>>> straight line lying on y = x. This means that our model is a good fit.
+
+After having a good Q-Q plot we go to Ljung-Box test to demonstrate that the
+residuals are uncorrelated.
+
+>>> Remember that a good model has residuals that are similar to white noise,
+>>> so the residuals should be normally distributed and uncorrelated.
+
+Ljung-Box test
+
+>>> The Ljung-Box test is a statistical test that determines whether the
+>>> autocorrelation of a group of data is significantly different from 0.
+
+>>> The null hypothesis states that the data is independently distributed,
+>>> meaning that there is no autocorrelation. If the p-value is larger than
+>>> 0.05, we cannot reject the null hypothesis meaning that the residuals are
+>>> independently distributed.
