@@ -536,3 +536,9 @@ Ljung-Box test
 >>> meaning that there is no autocorrelation. If the p-value is larger than
 >>> 0.05, we cannot reject the null hypothesis meaning that the residuals are
 >>> independently distributed.
+
+so basically if in the Q-Q plot y = x and when doing the Ljung-Box  test we get
+a p value larger than 0.05 we can start using the model for forecasting.
+
+since in ARMA we still have the MA(q) component, we will only be able to use
+forecast q periods into the future, otherwise we would only get the mean
