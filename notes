@@ -542,3 +542,50 @@ a p value larger than 0.05 we can start using the model for forecasting.
 
 since in ARMA we still have the MA(q) component, we will only be able to use
 forecast q periods into the future, otherwise we would only get the mean
+
+
+non-stationary time series (ar integrated ma)
+=============================================
+
+basically we will add the integrated order so we can model in non-stationary
+time series without having to model data transformed and making the inverse
+transform to get the final outputs
+
+so ARIMA(p,d,q) (autoregressive integrated moving average model) is a
+combination of AR(p) and MA(q) but we don't have to transform the series before
+
+d corresponds to the minimum number of times we had to do differencing in order
+to make the series stationary.
+
+in the experience of the author, a time series rarely needs to be differenced
+more than twice to become stationary.
+
+>>> It is denoted as ARIMA(p,d,q), where p is the order of the AR(p) process, d
+>>> is the order of integration, and q is the order of the MA(q) process.
+
+>>> Integration is the reverse of differencing, and the order of integration d
+>>> is equal to the number of times the series has been differenced to be
+>>> rendered stationary.
+
+>>> A time series that can be rendered stationary by applying differencing is
+>>> said to be an integrated series.
+
+The equation is pretty similar:
+
+yt = C + (φ1 (y'_(t-1)) + ... + (φp (y'_(t-p))
+     + (θ1 (ε'_(t-1)) + ... + (θq (ε'_(t-q)) + εt
+
+y't represents  the differenced series, it may have been differenced more than
+once.
+
+1. gather data
+2. is it stationary? if not make it
+3. set d to the number of times the series was differenced
+4. list values of p and q
+5. fit every combination of ARIMA(p,d,q)
+6. select model with lowest AIC
+7. residual analysis
+    - Q-Q plot shows a straight line? no? go back to step 3
+    - Uncorrelated residuals? no? go back to step 3
+8. if the answer to the last two question is yes, ready to forecasts
+
