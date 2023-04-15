@@ -1,0 +1,6 @@
+some questions left unanswered
+==============================
+
+1. Where is `d` in the ARIMA formula?
+2. Since I still have to manually set d: is there any benefit to use ARIMA
+   instead of making the transformation yourself and use ARMA?
