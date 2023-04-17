@@ -589,3 +589,81 @@ once.
     - Uncorrelated residuals? no? go back to step 3
 8. if the answer to the last two question is yes, ready to forecasts
 
+
+accounting for seasonality
+==========================
+
+we are going to talk about the SARMIA(p,d,q)(P,D,Q)m model, this model takes
+into account seasonlity.
+
+we notice new params P,D,Q and m, the first 3 are the same as their counter
+parts in lowcase but for seasonality, but before explaining them properly we
+need to shift our attention to the `m` param
+
+m stands for frequency
+>>> In the context of a time series, the frequency is defined as the number of
+>>> observations per cycle.
+
+the length of the cycle depends on the dataset
+
+For data that was recorded every year, quarter, month, or week, the length of a
+cycle is considered to be 1 year.
+
+if the data is collected
+- annual then frequency (m) is 1
+- quarterly then frequency (m) is 4
+- monthly then frequency (m) is 12
+- weekly then frequency (m) is 52
+
+When data is collected on a daily or sub-daily basis, there are multiple ways
+of interpreting the frequency
+
+| data collection | minute | hour | day   | week   | year     |
+|-----------------|--------|------|-------|--------|----------|
+| daily           |        |      |       | 7      | 365      |
+| hourly          |        |      | 24    | 168    | 8766     |
+| every minute    |        | 60   | 1440  | 10080  | 525960   |
+| every second    | 60     | 3600 | 86400 | 604800 | 31557600 |
+
+
+>>> The seasonal autoregressive integrated moving average (SARIMA) model adds
+>>> seasonal parameters to the ARIMA(p,d,q) model.
+>>>
+>>> It is denoted as SARIMA(p,d,q)(P,D,Q)m, where P is the order of the
+>>> seasonal AR(P) process, D is the seasonal order of integration, Q is the
+>>> order of the seasonal MA(Q) process, and m is the frequency, or the number
+>>> of observations per seasonal cycle.
+
+Let's use an example, say we have a dataset of an airline's total monthly air
+passengers, m would be 12, because we know that this is monthly data. If we see
+that on August we have more flights, the information of that month in prior
+years is likely going to be useful.
+
+identify seasonal patterns in a time series
+--------------------------------------------
+
+we can use time series decomposition, which is a technique of breaking the time
+series into three components:
+- trend: long term change
+- seasonability: repeated fluctuations that occur over a fixed period of time
+- residuals: noise, express any irregularity that cannot be explained by the
+  trend or the seasonal component.
+
+go to the notebook on ch8* to see more info
+
+you might be surprised -- like i was -- to find out that in fact, there are
+no statistical tests to identify seasonality in time series.
+
+so the steps are as follows:
+
+1. gather data
+2. is it stationary? if not make it
+3. set d to the number of times the series was differenced
+4. set D to the number of times seasonal differencing was applied
+4. list values of p, q, P, Q.
+5. fit every combination of SARIMA(p,d,q)(P,D,Q)m
+6. select model with lowest AIC
+7. residual analysis
+    - Q-Q plot shows a straight line? no? go back to step 3
+    - Uncorrelated residuals? no? go back to step 3
+8. if the answer to the last two question is yes, ready to forecasts
