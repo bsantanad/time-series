@@ -425,6 +425,7 @@ friends :(
 Akaike information criteria (AIC)
 ---------------------------------
 
+
 >>> The AIC estimates the quality of a model relative to other models.
 >>>
 >>> Given that there will be some information lost when a model is fitted to
@@ -466,8 +467,8 @@ in case that was unclear, here is an example:
 
 consider we will roll a six-sided die:
 
-- the dist function tells us that there is a 1/6 probability that we'll
-  observe [1,2,3,4,5,6]
+- the dist function tells us that there is a 1/6 probability that we'll observe
+  [1,2,3,4,5,6]
 
 - suppose that you roll a die 10 times and you obtain [1,5,3,4,6,2,4,3,2,1].
   The likelihood function will determine how likely is that the die has six
@@ -482,22 +483,20 @@ high.
 since AIC function subtracts the ln of L from 2k, it balance between
 underfitting and overfitting.
 
-AIC quantifies the quality of a model in relation to other models only.
-so it is a relative measure of quality.
+AIC quantifies the quality of a model in relation to other models only.  so it
+is a relative measure of quality.
 
 What we end up doing in code is iterating thru some combinations of p and q, to
 calc the AIC values and selecting the one with the lowest score
 
-calculating residuals
----------------------
+calculating residuals ---------------------
 
 The residuals of a model are simply the difference between the predicted values
 and the actual values.
 
 we need to check two things
 
-1. Q-Q plot
-2. Ljung-Box test
+1. Q-Q plot 2. Ljung-Box test
 
 if the process found by the arma model is the same as the original process,
 then the residual would be just εt (the error term), meaning white noise, stuff
@@ -572,32 +571,28 @@ more than twice to become stationary.
 
 The equation is pretty similar:
 
-yt = C + (φ1 (y'_(t-1)) + ... + (φp (y'_(t-p))
-     + (θ1 (ε'_(t-1)) + ... + (θq (ε'_(t-q)) + εt
+yt = C + (φ1 (y'_(t-1)) + ... + (φp (y'_(t-p)) + (θ1 (ε'_(t-1)) + ... + (θq
+(ε'_(t-q)) + εt
 
 y't represents  the differenced series, it may have been differenced more than
 once.
 
-1. gather data
-2. is it stationary? if not make it
-3. set d to the number of times the series was differenced
-4. list values of p and q
-5. fit every combination of ARIMA(p,d,q)
-6. select model with lowest AIC
-7. residual analysis
+1. gather data 2. is it stationary? if not make it 3. set d to the number of
+times the series was differenced 4. list values of p and q 5. fit every
+combination of ARIMA(p,d,q) 6. select model with lowest AIC 7. residual
+analysis
     - Q-Q plot shows a straight line? no? go back to step 3
-    - Uncorrelated residuals? no? go back to step 3
-8. if the answer to the last two question is yes, ready to forecasts
+    - Uncorrelated residuals? no? go back to step 3 8. if the answer to the
+      last two question is yes, ready to forecasts
 
 
-accounting for seasonality
-==========================
+accounting for seasonality ==========================
 
 we are going to talk about the SARMIA(p,d,q)(P,D,Q)m model, this model takes
 into account seasonlity.
 
 we notice new params P,D,Q and m, the first 3 are the same as their counter
-parts in lowcase but for seasonality, but before explaining them properly we
+parts in lowercase but for seasonality, but before explaining them properly we
 need to shift our attention to the `m` param
 
 m stands for frequency
@@ -619,11 +614,10 @@ When data is collected on a daily or sub-daily basis, there are multiple ways
 of interpreting the frequency
 
 | data collection | minute | hour | day   | week   | year     |
-|-----------------|--------|------|-------|--------|----------|
-| daily           |        |      |       | 7      | 365      |
-| hourly          |        |      | 24    | 168    | 8766     |
-| every minute    |        | 60   | 1440  | 10080  | 525960   |
-| every second    | 60     | 3600 | 86400 | 604800 | 31557600 |
+|-----------------|--------|------|-------|--------|----------| | daily
+|        |      |       | 7      | 365      | | hourly          |        |
+| 24    | 168    | 8766     | | every minute    |        | 60   | 1440  | 10080
+| 525960   | | every second    | 60     | 3600 | 86400 | 604800 | 31557600 |
 
 
 >>> The seasonal autoregressive integrated moving average (SARIMA) model adds
@@ -651,19 +645,41 @@ series into three components:
 
 go to the notebook on ch8* to see more info
 
-you might be surprised -- like i was -- to find out that in fact, there are
-no statistical tests to identify seasonality in time series.
+you might be surprised -- like i was -- to find out that in fact, there are no
+statistical tests to identify seasonality in time series.
 
 so the steps are as follows:
 
-1. gather data
-2. is it stationary? if not make it
-3. set d to the number of times the series was differenced
-4. set D to the number of times seasonal differencing was applied
-4. list values of p, q, P, Q.
-5. fit every combination of SARIMA(p,d,q)(P,D,Q)m
-6. select model with lowest AIC
-7. residual analysis
+1. gather data 2. is it stationary? if not make it 3. set d to the number of
+times the series was differenced 4. set D to the number of times seasonal
+differencing was applied 5. list values of p, q, P, Q.  6. fit every
+combination of SARIMA(p,d,q)(P,D,Q)m 7. select model with lowest AIC 8.
+residual analysis
     - Q-Q plot shows a straight line? no? go back to step 3
-    - Uncorrelated residuals? no? go back to step 3
-8. if the answer to the last two question is yes, ready to forecasts
+    - Uncorrelated residuals? no? go back to step 3 9. if the answer to the
+      last two question is yes, ready to forecasts
+
+exogenous sarima
+================
+we'll use sarimax to take into account external factors.
+
+in statistics
+- exogenous is used to describe predictors or input variables.
+- endogenous is used to define the target variable. (what we are trying to
+  predict)
+
+>>> sarimax model adds a linear combination of exogenous variables to the
+>>> sarima model.
+
+y = SARIMA(p,d,q)(P,D,Q)m + for i to n: βiX^i_t
+
+check the notebook for the formula, since it is quite difficult to write it in
+plain text
+
+Basically here we will have a dataframe with more than two columns. we will
+likely have more categories that we will take as our external factor.
+
+We don't have to do any feature selection since the linear model will attribute
+a coefficient close to 0 for exogenous variables that are not significant in
+predicting the target.
+
