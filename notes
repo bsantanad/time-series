@@ -577,16 +577,22 @@ yt = C + (φ1 (y'_(t-1)) + ... + (φp (y'_(t-p)) + (θ1 (ε'_(t-1)) + ... + (θq
 y't represents  the differenced series, it may have been differenced more than
 once.
 
-1. gather data 2. is it stationary? if not make it 3. set d to the number of
-times the series was differenced 4. list values of p and q 5. fit every
-combination of ARIMA(p,d,q) 6. select model with lowest AIC 7. residual
+1. gather data
+2. is it stationary? if not make it
+3. set d to the number of
+times the series was differenced
+4. list values of p and q
+5. fit every combination of ARIMA(p,d,q)
+6. select model with lowest AIC
+7. residual
 analysis
     - Q-Q plot shows a straight line? no? go back to step 3
     - Uncorrelated residuals? no? go back to step 3 8. if the answer to the
       last two question is yes, ready to forecasts
 
 
-accounting for seasonality ==========================
+accounting for seasonality
+==========================
 
 we are going to talk about the SARMIA(p,d,q)(P,D,Q)m model, this model takes
 into account seasonlity.
@@ -614,10 +620,11 @@ When data is collected on a daily or sub-daily basis, there are multiple ways
 of interpreting the frequency
 
 | data collection | minute | hour | day   | week   | year     |
-|-----------------|--------|------|-------|--------|----------| | daily
-|        |      |       | 7      | 365      | | hourly          |        |
-| 24    | 168    | 8766     | | every minute    |        | 60   | 1440  | 10080
-| 525960   | | every second    | 60     | 3600 | 86400 | 604800 | 31557600 |
+|-----------------|--------|------|-------|--------|----------|
+| daily           |        |      |       | 7      | 365      |
+| hourly          |        |      | 24    | 168    | 8766     |
+| every minute    |        | 60   | 1440  | 10080  | 525960   |
+| every second    | 60     | 3600 | 86400 | 604800 | 31557600 |
 
 
 >>> The seasonal autoregressive integrated moving average (SARIMA) model adds
@@ -650,10 +657,13 @@ statistical tests to identify seasonality in time series.
 
 so the steps are as follows:
 
-1. gather data 2. is it stationary? if not make it 3. set d to the number of
-times the series was differenced 4. set D to the number of times seasonal
-differencing was applied 5. list values of p, q, P, Q.  6. fit every
-combination of SARIMA(p,d,q)(P,D,Q)m 7. select model with lowest AIC 8.
+1. gather data
+2. is it stationary? if not make it
+3. set d to the number of times the series was differenced
+4. set D to the number of times seasonal differencing was applied
+5. list values of p, q, P, Q.
+6. fit every combination of SARIMA(p,d,q)(P,D,Q)m
+7. select model with lowest AIC 8.
 residual analysis
     - Q-Q plot shows a straight line? no? go back to step 3
     - Uncorrelated residuals? no? go back to step 3 9. if the answer to the
