@@ -683,3 +683,41 @@ We don't have to do any feature selection since the linear model will attribute
 a coefficient close to 0 for exogenous variables that are not significant in
 predicting the target.
 
+
+note on finding if a variable is useful for forecasting or not
+--------------------------------------------------------------
+
+The SARIMAX implementation in statsmodels comes with a regression analysis
+using the `summary` method.
+
+It has a p value assigned to each coefficient. This is often misused as a way to
+determine if a predictor is correlated with the target.
+
+>>> Therefore, you should not remove predictors based on their p-values.
+>>> Selecting the model by minimizing the AIC takes care of that step.
+
+see for more info https://robjhyndman.com/hyndsight/tests2/
+
+>>> Statistical significance is not usually a good basis for determining
+>>> whether a variable should be included in a model,
+
+>>> Statistical tests were designed to test hypotheses, not select variables.
+>>> Tests on coefficients are answering a different question from whether the
+>>> variable is useful in forecasting.
+
+caveat of using SARIMAX
+-----------------------
+
+SARIMAX can only predict one timestep into the future; say we have two time
+series x and y. We find out that y will help us do SARIMAX with x. x and y goes
+from 2000 to 2010.
+
+the time step is just 1 year, so we are trying to predict the values for 2011.
+We use sarimax and have our prediction. If we try to predict another timestep,
+well we don't have y data for that period.
+
+we could try to make a forecast on that series, but it will carry some error,
+so it becomes more unreliable.
+
+So unless you can predict y with some level of certainty, you will only be able
+to forecast x one timestep at a time.
